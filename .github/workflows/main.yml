@@ -33,10 +33,14 @@ jobs:
           path: ../build-cache
           key: ${{ runner.os }}-sccache-v7
       - name: Build Linux installable archive
+        shell: bash
         run: |
+          set -ex
+
           ./utils/webassembly/ci.sh
           echo "Cleanup build directory to free disk space"
           rm -rf ../build
+          df -h
       - name: Upload Linux installable archive
         uses: actions/upload-artifact@v1
         with:
@@ -63,9 +67,13 @@ jobs:
           path: ../build-cache
           key: ${{ runner.os }}-sccache-v7
       - name: Build macOS installable archive
+        shell: bash
         run: |
+          set -ex
+
           sudo xcode-select --switch /Applications/Xcode_12_beta.app/Contents/Developer/
           ./utils/webassembly/ci.sh
+          df -h
       - name: Upload macOS installable archive
         uses: actions/upload-artifact@v1
         with:
